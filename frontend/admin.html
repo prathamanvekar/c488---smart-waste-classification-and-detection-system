@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Waste Classification - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <span class="logo-icon">♻️</span>
+          <span class="logo-text">Smart Waste Classifier</span>
+        </div>
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Dashboard</a>
+          <a href="admin.html" class="nav-link active">Admin</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Page Title -->
+        <div class="page-header">
+          <h1 class="page-title">📊 Admin Analytics Dashboard</h1>
+          <div class="header-actions">
+            <button class="refresh-button" id="refreshButton">
+              🔄 Refresh
+            </button>
+            <button class="reset-button" id="resetButton">
+              🗑️ Reset All Data
+            </button>
+          </div>
+        </div>
+
+        <!-- Overview Stats -->
+        <section class="stats-section">
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-info">
+              <div class="stat-value" id="adminTotalDetections">0</div>
+              <div class="stat-label">Total Detections</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🌱</div>
+            <div class="stat-info">
+              <div class="stat-value" id="adminTotalEcoPoints">0</div>
+              <div class="stat-label">Total Eco-Points</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+              <div class="stat-value" id="adminAvgConfidence">0%</div>
+              <div class="stat-label">Avg Confidence</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🗂️</div>
+            <div class="stat-info">
+              <div class="stat-value" id="adminUniqueClasses">0</div>
+              <div class="stat-label">Unique Classes</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+          <div class="chart-row">
+            <!-- Detection Trends Chart -->
+            <div class="chart-card">
+              <h3 class="card-title">📈 Detection Trends (Last 30 Days)</h3>
+              <canvas id="trendsChart"></canvas>
+            </div>
+
+            <!-- Class Distribution Chart -->
+            <div class="chart-card">
+              <h3 class="card-title">🥧 Waste Class Distribution</h3>
+              <canvas id="classDistributionChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-row">
+            <!-- Daily Stats Chart -->
+            <div class="chart-card">
+              <h3 class="card-title">📊 Daily Statistics (Last 7 Days)</h3>
+              <canvas id="dailyStatsChart"></canvas>
+            </div>
+
+            <!-- Confidence Distribution Chart -->
+            <div class="chart-card">
+              <h3 class="card-title">🎯 Confidence Distribution</h3>
+              <canvas id="confidenceChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- Top Classes Section -->
+        <section class="top-classes-section">
+          <div class="result-card">
+            <h3 class="card-title">🏆 Top Detected Classes</h3>
+            <div id="topClassesList" class="top-classes-list"></div>
+          </div>
+        </section>
+
+        <!-- Recent Detections Table -->
+        <section class="recent-detections-section">
+          <div class="result-card">
+            <h3 class="card-title">🕐 Recent Detections</h3>
+            <div class="table-container">
+              <table class="detections-table" id="detectionsTable">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Timestamp</th>
+                    <th>Waste Class</th>
+                    <th>Confidence</th>
+                    <th>Eco-Points</th>
+                  </tr>
+                </thead>
+                <tbody id="detectionsTableBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification">
+      <span id="notificationText"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2026 Smart Waste Classification System | Admin Dashboard</p>
+    </footer>
+
+    <script src="js/admin.js"></script>
+  </body>
+</html>

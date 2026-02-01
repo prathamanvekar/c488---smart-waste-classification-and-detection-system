@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Waste Classification - User Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="logo">
+          <span class="logo-icon">♻️</span>
+          <span class="logo-text">Smart Waste Classifier</span>
+        </div>
+        <nav class="nav">
+          <a href="index.html" class="nav-link active">Dashboard</a>
+          <a href="admin.html" class="nav-link">Admin</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Stats Overview -->
+        <section class="stats-section">
+          <div class="stat-card">
+            <div class="stat-icon">🎯</div>
+            <div class="stat-info">
+              <div class="stat-value" id="totalDetections">0</div>
+              <div class="stat-label">Total Detections</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🌱</div>
+            <div class="stat-info">
+              <div class="stat-value" id="totalEcoPoints">0</div>
+              <div class="stat-label">Eco-Points</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+              <div class="stat-value" id="avgConfidence">0%</div>
+              <div class="stat-label">Avg Confidence</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mode Toggle Section -->
+        <section class="mode-toggle-section">
+          <div class="mode-toggle-container">
+            <button class="mode-button active" id="uploadModeBtn">
+              <span class="mode-icon">📷</span>
+              <span class="mode-label">Image Upload</span>
+            </button>
+            <button class="mode-button" id="cameraModeBtn">
+              <span class="mode-icon">🎥</span>
+              <span class="mode-label">Live Camera</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+          <h2 class="section-title">Upload Waste Image</h2>
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📷</div>
+            <p class="upload-text">Drag & Drop an image here</p>
+            <p class="upload-subtext">or</p>
+            <label for="fileInput" class="upload-button">Choose File</label>
+            <input type="file" id="fileInput" accept="image/*" hidden />
+            <p class="upload-hint">Supported: JPG, PNG, BMP (Max 16MB)</p>
+          </div>
+
+          <!-- Loading Indicator -->
+          <div class="loading" id="loadingIndicator" style="display: none">
+            <div class="spinner"></div>
+            <p>Analyzing waste...</p>
+          </div>
+        </section>
+
+        <!-- Camera Section -->
+        <section
+          class="camera-section"
+          id="cameraSection"
+          style="display: none"
+        >
+          <h2 class="section-title">Live Camera Detection</h2>
+
+          <!-- Camera Controls -->
+          <div class="camera-controls">
+            <button class="camera-control-btn" id="startCameraBtn">
+              <span class="btn-icon">▶️</span>
+              <span>Start Camera</span>
+            </button>
+            <button
+              class="camera-control-btn stop-btn"
+              id="stopCameraBtn"
+              style="display: none"
+            >
+              <span class="btn-icon">⏹️</span>
+              <span>Stop Camera</span>
+            </button>
+            <div class="camera-status" id="cameraStatus">
+              <span class="status-indicator off"></span>
+              <span class="status-text">Camera OFF</span>
+            </div>
+          </div>
+
+          <!-- Camera Feed -->
+          <div
+            class="camera-feed-container"
+            id="cameraFeedContainer"
+            style="display: none"
+          >
+            <video id="cameraFeed" autoplay playsinline></video>
+            <canvas id="detectionCanvas" style="display: none"></canvas>
+            <img
+              id="cameraAnnotatedFrame"
+              class="annotated-frame"
+              style="display: none"
+            />
+          </div>
+
+          <!-- Camera Loading Indicator -->
+          <div class="camera-info" id="cameraInfo">
+            <p>📹 Click "Start Camera" to begin live waste detection</p>
+            <p class="info-subtext">
+              Detection updates every 2 seconds while camera is active
+            </p>
+          </div>
+        </section>
+
+        <!-- Results Section -->
+        <section
+          class="results-section"
+          id="resultsSection"
+          style="display: none"
+        >
+          <!-- Annotated Image -->
+          <div class="results-grid">
+            <div class="result-card image-card">
+              <h3 class="card-title">Detected Waste</h3>
+              <img
+                id="annotatedImage"
+                class="annotated-image"
+                alt="Detection Result"
+              />
+            </div>
+
+            <!-- Detection Details -->
+            <div class="result-card details-card">
+              <h3 class="card-title">Detection Details</h3>
+              <div id="detectionsList" class="detections-list"></div>
+
+              <!-- Eco-Points Badge -->
+              <div class="eco-points-badge">
+                <div class="badge-icon">🌟</div>
+                <div class="badge-content">
+                  <div class="badge-points" id="sessionEcoPoints">0</div>
+                  <div class="badge-label">Eco-Points Earned</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="recommendations-card">
+            <h3 class="card-title">🤖 AI Recommendations</h3>
+            <div class="recommendations-content">
+              <div class="recommendation-section">
+                <h4 class="recommendation-title">📋 Disposal Instructions</h4>
+                <p id="disposalInstructions" class="recommendation-text"></p>
+              </div>
+              <div class="recommendation-section">
+                <h4 class="recommendation-title">⚠️ Safety Warnings</h4>
+                <p id="safetyWarnings" class="recommendation-text"></p>
+              </div>
+              <div class="recommendation-section">
+                <h4 class="recommendation-title">💡 Eco-Friendly Tips</h4>
+                <p id="ecoTips" class="recommendation-text"></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Notification Toast -->
+    <div class="notification" id="notification">
+      <span id="notificationText"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        &copy; 2026 Smart Waste Classification System | Powered by YOLO & Gemini
+        AI
+      </p>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
